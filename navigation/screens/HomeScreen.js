@@ -37,66 +37,41 @@ export default function HomeScreen({ navigation }) {
           }
         }}
       />
-    return (
-        <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center' }}>
-            <Text
-                onPress={() => alert('This is the "Home" screen.')}
-                style={{ fontSize: 20, fontWeight: 'bold' }}>Bem vindo, digite seu {type} </Text>
-            <SwitchSelector
-                style={{ margin: 50 }}
-                options={optionsSelector}
-                initial={0}
-                onPress={
 
+      <TextInput
+        value={text}
+        onChangeText={setText}
+        placeholder={type}
+        keyboardType={keyboard}
+        selectedColor={color}
+        style={{
+          height: 40,
+          margin: 10,
+          width: 200,
+          borderWidth: 1,
+          padding: 10,
+        }}
+      />
 
-                    value => {
-                        setType(value);
-                        if (value == 'RA') {
-                            setKeyboard('numeric')
-                            setColor('red')
-                            setOption("Student")
-                        } else {
-                            setKeyboard('email-address')
-                            setColor('green')
-                            setOption("Teacher")
-                        }
-                    }} />
-
-            <TextInput
-                value={text}
-                onChangeText={setText}
-                placeholder={type}
-                keyboardType={keyboard}
-                selectedColor={color}
-                style={{
-                    height: 40,
-                    margin: 10,
-                    width: 200,
-                    borderWidth: 1,
-                    padding: 10,
-                }}
-            />
-
-            <Button
-                title="Enter"
-                color={color}
-                onPress={() => {
-                    api.get(`/students/${parseInt(text)}`)
-                        .then((response) => {
-                            navigation.navigate({ name: option, params: { text: text } })
-                        })
-                        .catch((error) => {
-                            if (error.response) {
-                                alert(`Numero de ${type} Inválido`);
-                                console.log(error.response.data);
-                                console.log(error.response.status);
-                                console.log(error.response.headers);
-                            }
-                        });
-
-                }}
-            />
-
-        </View>
-    );
+      <Button
+        title="Enter"
+        color={color}
+        onPress={() => {
+          api
+            .get(`/students/${parseInt(text)}`)
+            .then((response) => {
+              navigation.navigate({ name: option, params: { text: text } });
+            })
+            .catch((error) => {
+              if (error.response) {
+                alert(`Numero de ${type} Inválido`);
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              }
+            });
+        }}
+      />
+    </View>
+  );
 }
