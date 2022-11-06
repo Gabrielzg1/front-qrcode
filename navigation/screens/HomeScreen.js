@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { View, Text, TextInput, Button } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
+import api from "../../api/api";
 
 export default function HomeScreen({ navigation }) {
-    const [type, setType] = useState('');
-    const [number, onChangeNumber] = useState(null);
+    const [type, setType] = useState('RA');
+    const [keyboard, setKeyboard] = useState('numeric');
+    const [color, setColor] = useState('red')
+    const [option, setOption] = useState('Student')
+    const [text, setText] = useState('')
 
     const optionsSelector = [
         { label: 'Aluno', value: 'RA', activeColor: "red" },
         { label: 'Professor', value: 'EMAIL', activeColor: 'green' }
 
     ];
-    const [keyboard, setKeyboard] = useState('default');
-    const [color, setColor] = useState('red')
-    const [option, setOption] = useState('')
-
 
     return (
         <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center' }}>
@@ -40,8 +40,8 @@ export default function HomeScreen({ navigation }) {
                     }} />
 
             <TextInput
-                onChangeText={onChangeNumber}
-                value={number}
+                value={text}
+                onChangeText={setText}
                 placeholder={type}
                 keyboardType={keyboard}
                 selectedColor={color}
@@ -53,10 +53,24 @@ export default function HomeScreen({ navigation }) {
                     padding: 10,
                 }}
             />
+
             <Button
                 title="Enter"
                 color={color}
-                onPress={() => navigation.navigate(option)}
+                onPress={() => {
+                    api.get(`/students/${parseInt(text)}`)
+                        .then((response) => {
+                            navigation.navigate({ name: option, params: { text: text } })
+                        })
+                        .catch((error) => {
+                            if (error.response) {
+                                console.log(error.response.data);
+                                console.log(error.response.status);
+                                console.log(error.response.headers);
+                            }
+                        });
+
+                }}
             />
 
         </View>
