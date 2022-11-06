@@ -8,11 +8,13 @@ export default function HomeScreen({ navigation }) {
 
     const optionsSelector = [
         { label: 'Aluno', value: 'RA', activeColor: "red" },
-        { label: 'Professor', value: 'EMAIL' }
+        { label: 'Professor', value: 'EMAIL', activeColor: 'green' }
 
     ];
     const [keyboard, setKeyboard] = useState('default');
     const [color, setColor] = useState('red')
+    const [option, setOption] = useState('')
+
 
     return (
         <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center' }}>
@@ -29,9 +31,11 @@ export default function HomeScreen({ navigation }) {
                         if (value == 'RA') {
                             setKeyboard('numeric')
                             setColor('red')
+                            setOption("Student")
                         } else {
                             setKeyboard('email-address')
                             setColor('green')
+                            setOption("Teacher")
                         }
                     }} />
 
@@ -50,9 +54,9 @@ export default function HomeScreen({ navigation }) {
                 }}
             />
             <Button
-                title="Learn More"
+                title="Enter"
                 color={color}
-                accessibilityLabel="Learn more about this purple button"
+                onPress={() => navigation.navigate(option)}
             />
 
         </View>
