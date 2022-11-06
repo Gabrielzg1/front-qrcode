@@ -26,6 +26,8 @@ export default function HomeScreen({ navigation }) {
                 options={optionsSelector}
                 initial={0}
                 onPress={
+
+
                     value => {
                         setType(value);
                         if (value == 'RA') {
