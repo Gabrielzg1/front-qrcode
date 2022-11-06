@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { View, Text, Image, Button } from "react-native";
 import api from "../../api/api";
 
-export default function StudentScreen({ navigation }) {
+export default function StudentScreen({ navigation, route }) {
   const [qrcode, setQrcode] = useState("");
-  const ra = 21002974
+
 
   const handleStudents = async () => {
     try {
-      const response = await api.get(`/students/${ra}`);
+      const response = await api.get(`/students/${parseInt(route.params?.text)}`);
+      console.log(parseInt(route.params?.post))
       setQrcode(response.data.img);
     } catch (error) {
       console.log(error);
@@ -17,7 +18,7 @@ export default function StudentScreen({ navigation }) {
   };
   useEffect(() => {
     (async () => await handleStudents())();
-  }, [])
+  }, [route.params?.text])
 
 
   return (
