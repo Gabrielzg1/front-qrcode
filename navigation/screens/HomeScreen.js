@@ -37,8 +37,6 @@ export default function HomeScreen({ navigation }) {
           }
         }}
       />
-
-<<<<<<< Updated upstream
     return (
         <View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center' }}>
             <Text
@@ -89,6 +87,7 @@ export default function HomeScreen({ navigation }) {
                         })
                         .catch((error) => {
                             if (error.response) {
+                                alert(`Numero de ${type} Inválido`);
                                 console.log(error.response.data);
                                 console.log(error.response.status);
                                 console.log(error.response.headers);
@@ -101,42 +100,3 @@ export default function HomeScreen({ navigation }) {
         </View>
     );
 }
-=======
-      <TextInput
-        value={text}
-        onChangeText={setText}
-        placeholder={type}
-        keyboardType={keyboard}
-        selectedColor={color}
-        style={{
-          height: 40,
-          margin: 10,
-          width: 200,
-          borderWidth: 1,
-          padding: 10,
-        }}
-      />
-
-      <Button
-        title="Enter"
-        color={color}
-        onPress={() => {
-          api
-            .get(`/students/${parseInt(text)}`)
-            .then((response) => {
-              navigation.navigate({ name: option, params: { text: text } });
-            })
-            .catch((error) => {
-              if (error.response) {
-                alert(`Numero de ${type} Inválido`);
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-              }
-            });
-        }}
-      />
-    </View>
-  );
-}
->>>>>>> Stashed changes
