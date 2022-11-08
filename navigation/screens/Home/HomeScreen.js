@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, Keyboard } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
-import api from "../../api/api";
+import api from "../../../api/api";
 
 export default function HomeScreen({ navigation }) {
   const [type, setType] = useState("RA");
@@ -9,6 +9,7 @@ export default function HomeScreen({ navigation }) {
   const [color, setColor] = useState("red");
   const [option, setOption] = useState("Student");
   const [text, setText] = useState("");
+  const [apiname, setApiname] = useState("students");
 
   const optionsSelector = [
     { label: "Aluno", value: "RA", activeColor: "red" },
@@ -16,7 +17,7 @@ export default function HomeScreen({ navigation }) {
   ];
 
   return (
-    <View style={{ flex: 1.5, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 0.9, alignItems: "center", justifyContent: "center" }}>
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
         Bem vindo, digite seu {type}{" "}
       </Text>
@@ -30,10 +31,12 @@ export default function HomeScreen({ navigation }) {
             setKeyboard("numeric");
             setColor("red");
             setOption("Student");
+            setApiname("students");
           } else {
             setKeyboard("email-address");
             setColor("green");
             setOption("Teacher");
+            setApiname("teachers");
           }
         }}
       />
@@ -57,8 +60,9 @@ export default function HomeScreen({ navigation }) {
         title="Enter"
         color={color}
         onPress={() => {
+          console.log(apiname);
           api
-            .get(`/students/${parseInt(text)}`)
+            .get(`/${apiname}/${parseInt(text)}`)
             .then((response) => {
               navigation.navigate({ name: option, params: { text: text } });
             })
@@ -70,6 +74,7 @@ export default function HomeScreen({ navigation }) {
                 console.log(error.response.headers);
               }
             });
+          Keyboard.dismiss();
         }}
       />
     </View>
