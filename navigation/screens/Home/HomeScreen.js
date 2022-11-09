@@ -60,9 +60,13 @@ export default function HomeScreen({ navigation }) {
         title="Enter"
         color={color}
         onPress={() => {
-          console.log(apiname);
+          var responseText;
+          if (option == "Student") {
+            responseText = parseInt(text);
+          } else responseText = text;
+
           api
-            .get(`/${apiname}/${parseInt(text)}`)
+            .get(`/${apiname}/${responseText}`)
             .then((response) => {
               navigation.navigate({ name: option, params: { text: text } });
             })

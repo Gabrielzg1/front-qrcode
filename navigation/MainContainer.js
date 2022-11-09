@@ -7,18 +7,30 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import HomeScreen from "./screens/Home/HomeScreen";
 import StudentScreen from "./screens/Student/StudentScreen";
 import TeacherScreen from "./screens/Teacher/TeacherScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AttendanceScreen from "./screens/Teacher/AttendanceScreen";
 
 //Screen names
 const homeName = "Home";
 const detailsName = "Student";
 const settingsName = "Teacher";
+const attendanceName = "Attendance";
 
-const Tab = createBottomTabNavigator();
+//const Tab = createBottomTabNavigator();
+
+const Stack = createNativeStackNavigator();
 
 function MainContainer() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <Stack.Navigator>
+        <Stack.Screen name={homeName} component={HomeScreen} />
+        <Stack.Screen name={detailsName} component={StudentScreen} />
+        <Stack.Screen name={settingsName} component={TeacherScreen} />
+        <Stack.Screen name={attendanceName} component={AttendanceScreen} />
+      </Stack.Navigator>
+
+      {/*<Tab.Navigator
         initialRouteName={homeName}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -47,7 +59,7 @@ function MainContainer() {
         <Tab.Screen name={homeName} component={HomeScreen} />
         <Tab.Screen name={detailsName} component={StudentScreen} />
         <Tab.Screen name={settingsName} component={TeacherScreen} />
-      </Tab.Navigator>
+      </Tab.Navigator>*/}
     </NavigationContainer>
   );
 }

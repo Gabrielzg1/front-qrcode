@@ -1,12 +1,31 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
+import * as React from "react";
+import { View, Text, Button } from "react-native";
+import { useState, useEffect } from "react";
+import api from "../../../api/api";
 
-export default function TeacherScreen({ navigation }) {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text
-                onPress={() => navigation.navigate('Home')}
-                style={{ fontSize: 26, fontWeight: 'bold' }}>Teacher Screen</Text>
-        </View>
-    );
+export default function TeacherScreen({ navigation, route }) {
+  const [username, setUsername] = useState("");
+
+  const handleTeacher = async () => {
+    try {
+      const response = await api.get(`/teachers/${route.params?.text}`);
+      setUsername(response.data.name);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    (async () => await handleTeacher())();
+  }, [route.params?.text]);
+
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={{ fontSize: 26, fontWeight: "bold" }}>Olá, {username} </Text>
+      <Button
+        title="Iniciar Chamada"
+        onPress={() => navigation.navigate("Attendance")}
+      />
+    </View>
+  );
 }
