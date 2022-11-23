@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
   ];
 
   return (
-    <View style={{ flex: 0.9, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 0.7, alignItems: "center", justifyContent: "center" }}>
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
         Bem vindo, digite seu {type}{" "}
       </Text>
@@ -65,13 +65,17 @@ export default function HomeScreen({ navigation }) {
             responseText = parseInt(text);
           } else responseText = text;
 
+          if (responseText == "") {
+            alert("Texto vázio");
+            return;
+          }
           api
             .get(`/${apiname}/${responseText}`)
             .then((response) => {
               navigation.navigate({ name: option, params: { text: text } });
             })
             .catch((error) => {
-              if (error.response) {
+              if (error.response || responseText == "") {
                 alert(`Numero de ${type} Inválido`);
                 console.log(error.response.data);
                 console.log(error.response.status);

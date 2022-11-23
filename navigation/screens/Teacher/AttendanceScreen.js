@@ -7,7 +7,9 @@ export default function AttendanceScreen({ navigation }) {
       <Text style={{ fontSize: 26, fontWeight: "bold" }}>
         Attendance Screen
       </Text>
-      <Button onPress={() => navigation.navigate("Home")} title="Back" />
+
+      <Button onPress={() => navigation.navigate("Finish")} title="Finish" />
+      <Button onPress={() => navigation.navigate("Teacher")} title="Back" />
     </View>
   );
 }
