@@ -1,5 +1,6 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Button } from "react-native";
+import api from "../../../api/api";
 
 export default function FinishScreen({ navigation }) {
   return (
