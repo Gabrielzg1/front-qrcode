@@ -14,6 +14,7 @@ export default function StudentScreen({ navigation, route }) {
       const response = await api.get(
         `/students/${parseInt(route.params?.text)}`
       );
+      console.log(typeof parseInt(route.params?.text));
       setQrcode(response.data.img);
       setUsername(response.data.name);
     } catch (error) {

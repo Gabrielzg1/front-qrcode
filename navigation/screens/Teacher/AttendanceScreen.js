@@ -7,10 +7,11 @@ export default function AttendanceScreen({ navigation }) {
   const [hasPermission, setHasPermission] = React.useState(false);
   const [scanData, setScanData] = React.useState();
   const [username, setUsername] = React.useState("");
+  const [attendance, setAttendance] = React.useState([]);
 
-  const handleStudent = async ({ data }) => {
+  const handleStudent = async () => {
     try {
-      const response = await api.get(`/students/${parseInt(data)}`);
+      const response = await api.get(`/students/${scanData}`);
       console.log(response.data.name);
       setUsername(response.data.name);
     } catch (error) {
@@ -36,7 +37,9 @@ export default function AttendanceScreen({ navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanData(data);
     console.log(`Data: ${data}`);
-    console.log(typeof parseInt(data));
+    const aux = attendance.find(data);
+    //if (aux == undefined)
+    attendance.push(data);
   };
 
   return (
@@ -52,8 +55,8 @@ export default function AttendanceScreen({ navigation }) {
           style={styles.done}
           title="Finalizar Chamada"
           onPress={() =>
-            navigation.navigate({
-              name: "Finish",
+            navigation.navigate("Finish", {
+              attendance: attendance,
             })
           }
         >
@@ -67,6 +70,7 @@ export default function AttendanceScreen({ navigation }) {
               onPress={() => {
                 setScanData(undefined);
                 handleStudent(scanData);
+                console.log(attendance);
               }}
             />
           )}
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   confirm: {
-    flexDirection: "column",
+    flexDirection: "row",
+    margin: 10,
   },
 });
