@@ -10,7 +10,8 @@ export default function AttendanceScreen({ navigation }) {
 
   const handleStudent = async ({ data }) => {
     try {
-      const response = await api.get(`/students/${scanData}`);
+      const response = await api.get(`/students/${parseInt(data)}`);
+      console.log(response.data.name);
       setUsername(response.data.name);
     } catch (error) {
       console.log(error);
@@ -35,6 +36,7 @@ export default function AttendanceScreen({ navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanData(data);
     console.log(`Data: ${data}`);
+    console.log(typeof parseInt(data));
   };
 
   return (
@@ -59,7 +61,6 @@ export default function AttendanceScreen({ navigation }) {
         </Pressable>
         <View style={styles.confirm}>
           <Text>{username}</Text>
-
           {scanData && (
             <Button
               title="Confirmar"
@@ -108,6 +109,6 @@ const styles = StyleSheet.create({
     color: "white",
   },
   confirm: {
-    flexDirection: "row",
+    flexDirection: "column",
   },
 });
