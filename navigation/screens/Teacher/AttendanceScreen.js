@@ -3,11 +3,12 @@ import React, { useEffect } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import api from "../../../api/api";
 
-export default function AttendanceScreen({ navigation }) {
+export default function AttendanceScreen({ navigation, route }) {
   const [hasPermission, setHasPermission] = React.useState(false);
   const [scanData, setScanData] = React.useState();
   const [username, setUsername] = React.useState("");
   const [attendance, setAttendance] = React.useState([]);
+  const [subjectName, setSubjetName] = React.useState();
 
   const handleStudent = async () => {
     try {
@@ -23,8 +24,10 @@ export default function AttendanceScreen({ navigation }) {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
+      let test = route.params?.classroom;
+      setSubjetName(test);
     })();
-  }, []);
+  }, [route.params?.classroom]);
 
   if (!hasPermission) {
     return (
@@ -37,9 +40,9 @@ export default function AttendanceScreen({ navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanData(data);
     console.log(`Data: ${data}`);
-    const aux = attendance.find(data);
-    //if (aux == undefined)
-    attendance.push(data);
+    const aux = attendance.find((element) => element == data);
+    handleStudent();
+    if (aux == undefined) attendance.push(data);
   };
 
   return (
@@ -57,6 +60,7 @@ export default function AttendanceScreen({ navigation }) {
           onPress={() =>
             navigation.navigate("Finish", {
               attendance: attendance,
+              subjectName: subjectName,
             })
           }
         >
@@ -68,9 +72,9 @@ export default function AttendanceScreen({ navigation }) {
             <Button
               title="Confirmar"
               onPress={() => {
-                setScanData(undefined);
                 handleStudent(scanData);
-                console.log(attendance);
+                setScanData(undefined);
+                setUsername("");
               }}
             />
           )}
@@ -113,7 +117,8 @@ const styles = StyleSheet.create({
     color: "white",
   },
   confirm: {
-    flexDirection: "row",
+    flexDirection: "column",
+    alignItems: "center",
     margin: 10,
   },
 });

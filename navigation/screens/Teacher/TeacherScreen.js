@@ -5,11 +5,13 @@ import api from "../../../api/api";
 
 export default function TeacherScreen({ navigation, route }) {
   const [username, setUsername] = useState("");
-
+  const [classroom, setClassroom] = useState();
   const handleTeacher = async () => {
     try {
       const response = await api.get(`/teachers/${route.params?.text}`);
       setUsername(response.data.name);
+      setClassroom(response.data.subject);
+      console.log(response.data.subject);
     } catch (error) {
       console.log(error);
     }
@@ -24,7 +26,9 @@ export default function TeacherScreen({ navigation, route }) {
       <Text style={{ fontSize: 26, fontWeight: "bold" }}>Olá, {username} </Text>
       <Button
         title="Iniciar Chamada"
-        onPress={() => navigation.navigate("Attendance")}
+        onPress={() =>
+          navigation.navigate("Attendance", { classroom: classroom })
+        }
       />
     </View>
   );
