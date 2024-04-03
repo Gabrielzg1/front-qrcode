@@ -6,7 +6,9 @@ import api from "../../../api/api";
 export default function AttendanceScreen({ navigation, route }) {
   const [hasPermission, setHasPermission] = React.useState(false);
   const [scanData, setScanData] = React.useState();
-  const [username, setUsername] = React.useState("");
+  const [username, setUsername] = React.useState(
+    "Clique em DUAS vezes para confirmar"
+  );
   const [attendance, setAttendance] = React.useState([]);
   const [subjectName, setSubjetName] = React.useState();
 
@@ -67,7 +69,7 @@ export default function AttendanceScreen({ navigation, route }) {
           <Text style={styles.text}>Finalizar Chamada</Text>
         </Pressable>
         <View style={styles.confirm}>
-          <Text>{username}</Text>
+          {scanData && <Text>{username}</Text>}
           {scanData && (
             <Button
               title="Confirmar"
